@@ -2,6 +2,12 @@
 require 'pry-byebug'
 
 module Enumerable
+  def my_map(&block)
+    map_array = []
+    self.my_each { |i| map_array << block.call(i) }
+    return map_array
+  end
+
   def my_count(item = :Default, &block)
     (block = proc { |i| i == item }) if item != :Default
     (block = proc { |i| i == i }) if !block_given? && item == :Default
@@ -89,6 +95,9 @@ p array.count { |i| i < 3 } == array.my_count { |i| i < 3 }
 p array.count == array.my_count
 p array.count(2) == array.my_count(2)
 nilarray = [nil, nil]
-p nilarray.count
-p nilarray.my_count
+p nilarray.count == nilarray.my_count
 puts
+
+puts 'testing map'
+p array.map { |i| i + 1 } == array.my_map { |i| i + 1 }
+p array.my_map { |i| i + 1 }
