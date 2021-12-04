@@ -11,8 +11,9 @@ module Enumerable
     return acc
   end
 
-  def my_map(&block)
-    return self.to_enum unless block_given?
+  def my_map(custom_proc = nil, &block)
+    (block = custom_proc) unless custom_proc.nil?
+    return self.to_enum if !block_given? && custom_proc.nil?
     map_array = []
     self.my_each { |i| map_array << block.call(i) }
     return map_array
@@ -110,6 +111,8 @@ puts
 
 puts 'testing map'
 p array.map { |i| i + 1 } == array.my_map { |i| i + 1 }
+block = proc { |i| i + 1 }
+p array.my_map(block)
 puts
 
 puts 'testing inject'
