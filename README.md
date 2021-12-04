@@ -1,5 +1,5 @@
 # Custom Enumerables
- This is a project where I have to recreate some buil-in methods from Enumerable module.
+ This is a project where I have to recreate some built-in methods from Enumerable module.
  This project heavily uses Blocks concept of Ruby.
 
 ## Methods Recreated
