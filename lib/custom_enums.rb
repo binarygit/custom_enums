@@ -2,18 +2,23 @@
 require 'pry-byebug'
 
 module Enumerable
-  def my_inject(acc = self.first, &block)
+  def my_inject(arg = :default, &block)
     return self.to_enum unless block_given?
-    for i in self
-      next if i == self.first
-      acc = block.call(acc, i)
-    end
-    return acc
+
+      (acc = self.first) if arg == :default
+      (acc = arg) if arg != :default
+      for i in self
+        next if i == self.first && arg == :default
+
+        acc = block.call(acc, i)
+      end
+      return acc
   end
 
   def my_map(custom_proc = nil, &block)
     (block = custom_proc) unless custom_proc.nil?
     return self.to_enum if !block_given? && custom_proc.nil?
+
     map_array = []
     self.my_each { |i| map_array << block.call(i) }
     return map_array
@@ -120,3 +125,5 @@ puts
 puts 'testing inject'
 p array.inject { |acc, value| acc + value } == array.my_inject { |acc, value| acc + value }
 p array.inject { |acc, value| acc * value } == array.my_inject { |acc, value| acc * value }
+p array.inject(0) { |acc, value| acc * value } == array.my_inject(0) { |acc, value| acc * value }
+p array.inject(2) { |acc, value| acc * value } == array.my_inject(2) { |acc, value| acc * value }
