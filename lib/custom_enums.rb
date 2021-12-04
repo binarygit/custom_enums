@@ -118,4 +118,3 @@ puts
 puts 'testing inject'
 p array.inject { |acc, value| acc + value } == array.my_inject { |acc, value| acc + value }
 p array.inject { |acc, value| acc * value } == array.my_inject { |acc, value| acc * value }
-# p (5..10).inject(:+) == (5..10).my_inject(:+)
