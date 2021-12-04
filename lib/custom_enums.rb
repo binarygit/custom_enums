@@ -2,7 +2,17 @@
 require 'pry-byebug'
 
 module Enumerable
+  def my_inject(acc = self[0], &block)
+    return self.to_enum unless block_given?
+    for i in self
+      next if i == self[0]
+      acc = block.call(acc, i)
+    end
+    return acc
+  end
+
   def my_map(&block)
+    return self.to_enum unless block_given?
     map_array = []
     self.my_each { |i| map_array << block.call(i) }
     return map_array
@@ -100,4 +110,9 @@ puts
 
 puts 'testing map'
 p array.map { |i| i + 1 } == array.my_map { |i| i + 1 }
-p array.my_map { |i| i + 1 }
+puts
+
+puts 'testing inject'
+p array.inject { |acc, value| acc + value } == array.my_inject { |acc, value| acc + value }
+p array.inject { |acc, value| acc * value } == array.my_inject { |acc, value| acc * value }
+# p (5..10).inject(:+) == (5..10).my_inject(:+)
