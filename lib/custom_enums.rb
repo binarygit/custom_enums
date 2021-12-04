@@ -94,6 +94,8 @@ puts
 puts 'testing all?'
 p array.all? { |i| i > 4 } == array.my_all? { |i| i > 4 }
 p array.all? == array.my_all?
+p [nil, true, 99].all? == [nil, true, 99].my_all?
+p [].all? == [].my_all?
 puts
 
 puts 'testing any?'
