@@ -2,10 +2,10 @@
 require 'pry-byebug'
 
 module Enumerable
-  def my_inject(acc = self[0], &block)
+  def my_inject(acc = self.first, &block)
     return self.to_enum unless block_given?
     for i in self
-      next if i == self[0]
+      next if i == self.first
       acc = block.call(acc, i)
     end
     return acc
